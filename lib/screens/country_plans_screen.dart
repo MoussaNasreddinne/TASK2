@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:circle_flags/circle_flags.dart';
 import '../widgets/esim_plan_card.dart';
+import 'summary_screen.dart'; // Make sure this import points to your Summary screen
 
 class CountryPlansScreen extends StatelessWidget {
   final String countryName;
@@ -60,16 +61,14 @@ class CountryPlansScreen extends StatelessWidget {
 
           // Jordan (gradient like screenshot)
           final Gradient jordanGradient = const LinearGradient(
-colors: [
-  Color(0xFF6157A6), // dark purple (left)
-  Color(0xFF4C8DF5), // bright blue (middle)
-  Color(0xFF2FBFBE), // teal (right)
-],
-stops: [0.0, 0.5, 1.0],
-begin: Alignment.centerLeft,
-end: Alignment.centerRight ,
-
-
+            colors: [
+              Color(0xFF6157A6),
+              Color(0xFF4C8DF5),
+              Color(0xFF2FBFBE),
+            ],
+            stops: [0.0, 0.5, 1.0],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           );
           final Color jordanButtonColor = Colors.white.withOpacity(0.2);
           final Color jordanPriceTagColor = const Color(0xFFEADBC8);
@@ -83,21 +82,32 @@ end: Alignment.centerRight ,
             validity: plan['validity']!,
             bonus: plan['bonus'],
             isLast: isLastCard,
-            onBuy: () {
-              // TODO: Handle Buy Now
-            },
+            onBuy: isSaudi && index == 0
+                ? () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SummaryScreen(
+                          planTitle: plan['title']!,
+                          planPrice: plan['price']!,
+                          countryName: countryName,
+                        ),
+                      ),
+                    );
+                  }
+                : () {},
 
             // Jordan uses gradient, Saudi uses solid
             cardColor: isSaudi ? saudiCardColor : Colors.transparent,
             cardGradient: isJordan ? jordanGradient : null,
-          buttonColor: isJordan 
-    ? (isLastCard ? Colors.white : jordanButtonColor)
-    : (isLastCard ? Colors.white : saudiButtonColor),
+            buttonColor: isJordan
+                ? (isLastCard ? Colors.white : jordanButtonColor)
+                : (isLastCard ? Colors.white : saudiButtonColor),
             priceTagColor: isJordan ? jordanPriceTagColor : saudiPriceTagColor,
             titleColor: isJordan ? jordanTitleColor : saudiTitleColor,
-            buttonTextColor: isJordan 
-    ? (isLastCard ? Colors.black : Colors.white)
-    : (isLastCard ? Colors.black : Colors.white),
+            buttonTextColor: isJordan
+                ? (isLastCard ? Colors.black : Colors.white)
+                : (isLastCard ? Colors.black : Colors.white),
           );
         },
       ),
