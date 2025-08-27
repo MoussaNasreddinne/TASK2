@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../widgets/_login_signup_tabs.dart';
 import '../widgets/_custom_text_field.dart';
+import '../providers/auth_provider.dart';
 
 class LoginSignupScreen extends StatefulWidget {
   const LoginSignupScreen({super.key});
@@ -10,7 +12,7 @@ class LoginSignupScreen extends StatefulWidget {
 }
 
 class _LoginSignupScreenState extends State<LoginSignupScreen> {
-  int _selectedTab = 0; // 0 = Login, 1 = Sign Up
+  int _selectedTab = 0;
   bool _agreedToTerms = false;
 
   static const backgroundColor = Color(0xFF131518);
@@ -66,7 +68,13 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // TODO: Implement the authentication logic here
+                      final authProvider =
+                          Provider.of<AuthProvider>(context, listen: false);
+
+                      if (_selectedTab == 0) {
+                        authProvider.loginDummy();
+                      }
+                      Navigator.of(context).maybePop(); // safely close screen
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF444444),
@@ -132,9 +140,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
       Align(
         alignment: Alignment.centerRight,
         child: TextButton(
-          onPressed: () {
-            // TODO: Add logic for "Forgot Password?"
-          },
+          onPressed: () {},
           child: Text(
             'Forgot Password?',
             style: TextStyle(
@@ -235,15 +241,10 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
       height: 55,
       decoration: BoxDecoration(
         color: const Color(0xFF444444),
-        shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Center(
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: 45,
-        ),
+        child: Icon(icon, color: Colors.white, size: 45),
       ),
     );
   }

@@ -9,6 +9,7 @@ import '../widgets/segmented_tabs.dart';
 import 'country_plans_screen.dart';
 import 'ops_screen.dart';
 import '../app_data.dart'; // Import the new data file
+import 'ExclusiveDealsScreen.dart';
 
 class HelloScreen extends StatefulWidget {
   const HelloScreen({super.key});
@@ -38,13 +39,18 @@ class _HelloScreenState extends State<HelloScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                'assets/image1.png',
-                fit: BoxFit.cover,
-              ),
-            ),
+            GestureDetector(
+  onTap: () {
+   showExclusiveDealsScreen(context);
+  },
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(20),
+    child: Image.asset(
+      'assets/image1.png',
+      fit: BoxFit.cover,
+    ),
+  ),
+),
             const SizedBox(height: 20),
             SegmentedTabs(
               selectedTab: _selectedTab,

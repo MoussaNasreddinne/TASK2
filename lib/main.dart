@@ -6,11 +6,14 @@ import 'screens/hello_screen.dart';
 import 'screens/esims_screen.dart';
 import 'screens/profile_screen.dart';
 import 'widgets/_build_nav_item.dart';
-
+import 'providers/auth_provider.dart';
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => NavigationProvider(),
+ runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NavigationProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()), // added here
+      ],
       child: const EsimApp(),
     ),
   );
